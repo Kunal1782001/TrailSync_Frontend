@@ -18,7 +18,8 @@ const Login = () => {
 
       // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify({ jwtToken, username, roleName, userId }));
-
+      console.log("Role ",roleName);
+      
       // Redirect based on role
       if (roleName === "ROLE_ADMIN") {
         navigate("/admin-dashboard");

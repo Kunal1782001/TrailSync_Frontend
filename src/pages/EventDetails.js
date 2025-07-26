@@ -8,7 +8,6 @@ const EventDetails = () => {
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [expenses, setExpenses] = useState([]); // State for expenses
-  const [isJoined, setIsJoined] = useState(false); // Track if user joined
   const user = JSON.parse(localStorage.getItem("user")); // Get logged-in user
   const token = user?.jwtToken;
 
@@ -19,14 +18,8 @@ const EventDetails = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setEvent(response.data);
-
-        // Check if the user has already joined the event
-        const isUserJoined = response.data.participants.some(
-          (participant) => participant.id === user.userId
-        );
-        setIsJoined(isUserJoined);
       } catch (error) {
-        console.error("Error fetching event details", error);
+        console.error("Error fetching event details:", error);
       }
     };
 
@@ -37,22 +30,17 @@ const EventDetails = () => {
         });
         setExpenses(response.data);
       } catch (error) {
-        console.error("Error fetching expenses", error);
+        console.error("Error fetching expenses:", error);
       }
     };
 
     fetchEventDetails();
     fetchExpenses();
-  }, [id, token, user]);
+  }, [id, token]);
 
-  const handleJoinEvent = async () => {
-    try {
-      // Redirect to the payment page
-      navigate(`/payment/${id}`);
-    } catch (error) {
-      console.error("Error joining event", error);
-      alert("Failed to join event.");
-    }
+  const handleJoinEvent = () => {
+    // Allow user to navigate to payment for all events
+    navigate(`/payment/${id}`);
   };
 
   const openGoogleMaps = () => {
@@ -73,29 +61,24 @@ const EventDetails = () => {
         <p><strong>Date:</strong> {event.date}</p>
         <p>
           <strong>Location:</strong> {event.location.name}
-         
         </p>
-        <p><strong>Address:</strong> {event.location.address}
-        <span className="ms-2">
+        <p>
+          <strong>Address:</strong> {event.location.address}
+          <span className="ms-2">
             <FaMapMarkerAlt 
               className="text-danger" 
               style={{ cursor: "pointer" }} 
               onClick={openGoogleMaps} 
             />
           </span>
-        
         </p>
         <p><strong>Description:</strong> {event.description}</p>
 
-        {/* Show 'Join Event' button if user hasn't joined, otherwise 'Joined' */}
+        {/* 'Join Event' button - Always enabled */}
         <div className="d-flex justify-content-center">
-          {isJoined ? (
-            <button className="btn btn-secondary" disabled>Joined</button>
-          ) : (
-            <button className="btn btn-primary" onClick={handleJoinEvent}>
-              Join Event
-            </button>
-          )}
+          <button className="btn btn-primary" onClick={handleJoinEvent}>
+            Join Event
+          </button>
         </div>
       </div>
 

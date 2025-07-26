@@ -14,9 +14,13 @@ import ManageEvent from "../pages/admin/ManageEvent";
 import ManageUsers from "../pages/admin/ManageUsers";
 import ManageLocations from "../pages/admin/ManageLocations";
 import AnalyticsReports from "../pages/admin/AnalyticsReports";
+import AdminPayments from "../pages/admin/AdminPayments";
+
 
 import ViewParticipantsPage from "../pages/ViewParticipantsPage";
 
+import InvoicePage from "../pages/InvoicePage"; // Import the invoice page
+import EnrolledEvents from "../pages/EnrolledEvents"; // ✅ Import new page
 
 
 import UpdateEventPage from "../pages/UpdateEventPage";
@@ -48,13 +52,16 @@ const AppRoutes = () => {
           <Route path="/create-event" element={<CreateEvent />} />
           <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/my-events" element={<MyEventsPage />} />
+          <Route path="/enrolled-events" element={<EnrolledEvents />} /> {/* ✅ New Route */}
+
 
           
 
           {/* Protected profile and dashboard */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
-
+          <Route path="/invoice/:id" element={<InvoicePage />} />
+          
           <Route path="/add-expense/:eventId" element={<AddExpense />} />
           <Route path="/update-event/:id" element={<UpdateEventPage />} />
           <Route path="/update-expense/:id" element={<UpdateExpensePage />} />
@@ -64,12 +71,13 @@ const AppRoutes = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
         </Route>
 
-        <Route element={<PrivateRoute role="ROLE_ADMIN" />}>
+          <Route element={<PrivateRoute role="ROLE_ADMIN" />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/admin/events" element={<ManageEvent />} />  {/* ManageEvent Page */}
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/locations" element={<ManageLocations />} />
           <Route path="/admin/analytics" element={<AnalyticsReports />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
 
 
 
